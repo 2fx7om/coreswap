@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CoreSwap.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:CoreSwap.Pages"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="#FFFFFF"
+    Shell.TabBarForegroundColor="#176BFF"
+    Shell.TabBarTitleColor="#176BFF"
+    Shell.TabBarUnselectedColor="#8B9BB0">
+
+    <TabBar>
+
+        <ShellContent
+            Title="Home"
+            Icon="nav_home.svg"
+            Route="HomePage"
+            ContentTemplate="{DataTemplate pages:HomePage}" />
+
+        <ShellContent
+            Title="Activity"
+            Icon="nav_activity.svg"
+            Route="MyActivityPage"
+            ContentTemplate="{DataTemplate pages:MyActivityPage}" />
+
+        <ShellContent
+            Title="Alerts"
+            Icon="nav_bell.svg"
+            Route="NotificationsPage"
+            ContentTemplate="{DataTemplate pages:NotificationsPage}" />
+
+        <ShellContent
+            Title="Profile"
+            Icon="nav_profile.svg"
+            Route="AboutPage"
+            ContentTemplate="{DataTemplate pages:AboutPage}" />
+
+    </TabBar>
+</Shell>

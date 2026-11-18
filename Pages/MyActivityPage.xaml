@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CoreSwap.Pages.MyActivityPage"
+    Title="My Activity"
+    BackgroundColor="#F6F9FE">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*"
+          Padding="16,16,16,8"
+          RowSpacing="12">
+
+        <!-- HEADER -->
+        <Grid ColumnDefinitions="*,Auto"
+              Grid.Row="0"
+              ColumnSpacing="10">
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="My Activity"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="#102C57"/>
+
+                <Label Text="Track your requests, services and offers"
+                       FontSize="12"
+                       TextColor="#74849B"/>
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+        Text="Refresh"
+        FontSize="12"
+        FontAttributes="Bold"
+        TextColor="#176BFF"
+        BackgroundColor="#EDF4FF"
+        BorderColor="#DCE6F2"
+        BorderWidth="1"
+        CornerRadius="12"
+        WidthRequest="85"
+        HeightRequest="45"
+        Clicked="OnRefreshClicked"/>
+        </Grid>
+
+        <!-- MAIN TABS -->
+        <ScrollView Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalScrollBarVisibility="Never">
+
+            <HorizontalStackLayout Spacing="8">
+
+                <Button x:Name="RequestsButton"
+                        Text="Requests"
+                        Clicked="OnRequestsClicked"/>
+
+                <Button x:Name="OffersButton"
+                        Text="Offers"
+                        Clicked="OnOffersClicked"/>
+
+                <Button x:Name="ServicesButton"
+                        Text="Services"
+                        Clicked="OnServicesClicked"/>
+
+                <Button x:Name="MatchesButton"
+                        Text="Matches"
+                        Clicked="OnMatchesClicked"/>
+
+                <Button x:Name="NegotiationsButton"
+                        Text="Negotiations"
+                        Clicked="OnNegotiationsClicked"/>
+
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- SENT / RECEIVED -->
+        <Grid Grid.Row="2"
+              x:Name="NegotiationTabs"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="10"
+              IsVisible="False">
+
+            <Button x:Name="SentButton"
+                    Text="Sent"
+                    Clicked="OnSentClicked"/>
+
+            <Button x:Name="ReceivedButton"
+                    Grid.Column="1"
+                    Text="Received"
+                    Clicked="OnReceivedClicked"/>
+        </Grid>
+
+        <!-- ACTIVITY LIST -->
+        <Grid Grid.Row="3">
+
+            <CollectionView x:Name="ActivityCollection"
+                            SelectionMode="None"
+                            VerticalScrollBarVisibility="Default">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout
+                        Padding="20,75"
+                        Spacing="12"
+                        HorizontalOptions="Center">
+
+                        <Label Text="No activity yet"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"
+                               HorizontalTextAlignment="Center"/>
+
+                        <Label Text="Your activity will appear here."
+                               FontSize="12"
+                               TextColor="#74849B"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#DFE8F4"
+                            StrokeShape="RoundRectangle 17"
+                            Padding="15"
+                            Margin="0,0,0,12">
+
+                            <VerticalStackLayout Spacing="10">
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="10">
+
+                                    <Label Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#102C57"
+                                           MaxLines="2"/>
+
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="#EDF4FF"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 8"
+                                            Padding="9,5">
+
+                                        <Label Text="{Binding Status}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#176BFF"/>
+                                    </Border>
+                                </Grid>
+
+                                <Label Text="{Binding Subtitle}"
+                                       TextColor="#536A82"
+                                       FontSize="13"/>
+
+                                <Label Text="{Binding Detail}"
+                                       TextColor="#74849B"
+                                       FontSize="12"
+                                       LineBreakMode="WordWrap"/>
+
+                                <!-- ACTION BUTTONS -->
+                                <Grid ColumnDefinitions="*,*,*"
+                                      ColumnSpacing="6"
+                                      IsVisible="{Binding HasActions}">
+
+                                    <Button
+                                        Text="{Binding FirstAction}"
+                                        IsVisible="{Binding HasFirstAction}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnFirstActionClicked"
+                                        BackgroundColor="#176BFF"
+                                        TextColor="White"
+                                        CornerRadius="10"
+                                        HeightRequest="42"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        Padding="6,0"/>
+
+                                    <Button
+                                        Grid.Column="1"
+                                        Text="{Binding SecondAction}"
+                                        IsVisible="{Binding HasSecondAction}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnSecondActionClicked"
+                                        BackgroundColor="#EDF4FF"
+                                        TextColor="#176BFF"
+                                        CornerRadius="10"
+                                        HeightRequest="42"
+                                        FontSize="12"
+                                        Padding="6,0"/>
+
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="{Binding ThirdAction}"
+                                        IsVisible="{Binding HasThirdAction}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnThirdActionClicked"
+                                        BackgroundColor="#F6F7FA"
+                                        TextColor="#52677E"
+                                        CornerRadius="10"
+                                        HeightRequest="42"
+                                        FontSize="12"
+                                        Padding="6,0"/>
+                                </Grid>
+
+                                <Button Text="View Details"
+                                        IsVisible="{Binding CanView}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnViewClicked"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#176BFF"
+                                        FontSize="12"
+                                        HorizontalOptions="End"
+                                        Padding="8,4"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator
+                x:Name="BusyIndicator"
+                IsVisible="False"
+                IsRunning="False"
+                Color="#176BFF"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+        </Grid>
+    </Grid>
+</ContentPage>

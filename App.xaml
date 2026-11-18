@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreSwap.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#176BFF</Color>
+            <Color x:Key="Navy">#0E2454</Color>
+            <Color x:Key="Muted">#718398</Color>
+            <Color x:Key="Surface">#F7FBFF</Color>
+            <Color x:Key="Line">#DCE6F2</Color>
+
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="TextColor" Value="{StaticResource Navy}" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="OpenSansSemibold" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+
+            <Style x:Key="PrimaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <Style x:Key="OutlineButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                <Setter Property="BorderColor" Value="#C8D5E4" />
+                <Setter Property="BorderWidth" Value="1" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource Navy}" />
+                <Setter Property="PlaceholderColor" Value="#93A1B2" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+
+            <Style TargetType="Editor">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource Navy}" />
+                <Setter Property="PlaceholderColor" Value="#93A1B2" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

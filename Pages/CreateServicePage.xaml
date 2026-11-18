@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CoreSwap.Pages.CreateServicePage"
+    Title="Create Service"
+    BackgroundColor="#F6F9FE">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="18,18,18,30"
+            Spacing="16">
+
+            <!-- PAGE HEADING -->
+            <VerticalStackLayout Spacing="5">
+                <Label x:Name="PageHeading"
+                       Text="Create Service"
+                       TextColor="#102C57"
+                       FontSize="26"
+                       FontAttributes="Bold"/>
+
+                <Label
+                    Text="Share your skills with the campus community"
+                    TextColor="#74849B"
+                    FontSize="12"/>
+            </VerticalStackLayout>
+
+            <!-- PHOTO -->
+            <Border BackgroundColor="White"
+                    Stroke="#DFE8F4"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Service Photo (Optional)"
+                           TextColor="#102C57"
+                           FontSize="16"
+                           FontAttributes="Bold"/>
+
+                    <Border
+                        BackgroundColor="#F1F6FF"
+                        Stroke="#DCE7F7"
+                        StrokeShape="RoundRectangle 14"
+                        HeightRequest="155">
+
+                        <Grid>
+                            <VerticalStackLayout
+                                x:Name="PhotoPlaceholder"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Spacing="7">
+
+                                <Label Text="Add a service photo"
+                                       TextColor="#102C57"
+                                       FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center"/>
+
+                                <Label Text="Choose a JPEG photo from your gallery"
+                                       TextColor="#74849B"
+                                       FontSize="11"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+
+                            <Image x:Name="PhotoPreview"
+                                   IsVisible="False"
+                                   Aspect="AspectFill"/>
+                        </Grid>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="10">
+
+                        <Button
+                            Text="Choose Photo"
+                            Style="{StaticResource PrimaryButton}"
+                            HeightRequest="44"
+                            Clicked="OnChoosePhotoClicked"/>
+
+                        <Button
+                            x:Name="RemovePhotoButton"
+                            Grid.Column="1"
+                            Text="Remove"
+                            IsEnabled="False"
+                            Style="{StaticResource OutlineButton}"
+                            HeightRequest="44"
+                            Clicked="OnRemovePhotoClicked"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- SERVICE INFORMATION -->
+            <Border BackgroundColor="White"
+                    Stroke="#DFE8F4"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Service Details"
+                           FontSize="17"
+                           FontAttributes="Bold"
+                           TextColor="#102C57"/>
+
+                    <Label Text="Service Title *"
+                           TextColor="#102C57"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="#F8FAFE"
+                            Stroke="#E2EAF5"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10,2">
+
+                        <Entry x:Name="TitleEntry"
+                               Placeholder="e.g. Laptop and PC Repair"
+                               MaxLength="100"/>
+                    </Border>
+
+                    <Label Text="Category *"
+                           TextColor="#102C57"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="#F8FAFE"
+                            Stroke="#E2EAF5"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10,2">
+
+                        <Picker x:Name="CategoryPicker"
+                                Title="Select a category"
+                                SelectedIndexChanged="OnCategoryChanged">
+
+                            <Picker.Items>
+                                <x:String>Hardware Repair</x:String>
+                                <x:String>Component Swap</x:String>
+                                <x:String>Tool Loan</x:String>
+                                <x:String>Other</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </Border>
+
+                    <VerticalStackLayout
+                        x:Name="OtherCategoryPanel"
+                        IsVisible="False"
+                        Spacing="7">
+
+                        <Label Text="Custom Category *"
+                               TextColor="#102C57"
+                               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="#F8FAFE"
+                                Stroke="#E2EAF5"
+                                StrokeShape="RoundRectangle 12"
+                                Padding="10,2">
+
+                            <Entry x:Name="OtherCategoryEntry"
+                                   Placeholder="Enter a category"
+                                   MaxLength="50"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Label Text="Description *"
+                           TextColor="#102C57"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="#F8FAFE"
+                            Stroke="#E2EAF5"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="12">
+
+                        <Editor x:Name="DescriptionEditor"
+                                Placeholder="Describe your service..."
+                                AutoSize="TextChanges"
+                                MinimumHeightRequest="105"
+                                MaxLength="1000"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- PRICING -->
+            <Border BackgroundColor="White"
+                    Stroke="#DFE8F4"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Pricing"
+                           TextColor="#102C57"
+                           FontSize="17"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="Pricing Type *"
+                           TextColor="#102C57"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="#F8FAFE"
+                            Stroke="#E2EAF5"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10,2">
+
+                        <Picker x:Name="PricingPicker"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnPricingChanged">
+
+                            <Picker.Items>
+                                <x:String>Free</x:String>
+                                <x:String>Fixed Price</x:String>
+                                <x:String>Negotiable</x:String>
+                                <x:String>Swap / Exchange</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </Border>
+
+                    <VerticalStackLayout
+                        x:Name="PricePanel"
+                        Spacing="7">
+
+                        <Label Text="Price (RM)"
+                               TextColor="#102C57"
+                               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="#F8FAFE"
+                                Stroke="#E2EAF5"
+                                StrokeShape="RoundRectangle 12"
+                                Padding="10,2">
+
+                            <Entry x:Name="PriceEntry"
+                                   Keyboard="Numeric"
+                                   Placeholder="e.g. 20"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- AVAILABILITY -->
+            <Border BackgroundColor="White"
+                    Stroke="#DFE8F4"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+
+                <VerticalStackLayout Spacing="13">
+
+                    <Label Text="Availability"
+                           TextColor="#102C57"
+                           FontSize="17"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="Choose when you can provide this service"
+                           TextColor="#74849B"
+                           FontSize="12"/>
+
+                    <Label Text="Available Days *"
+                           TextColor="#102C57"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="#F8FAFE"
+                            Stroke="#E2EAF5"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10,2">
+
+                        <Picker x:Name="DaysPicker"
+                                Title="Choose available days">
+
+                            <Picker.Items>
+                                <x:String>Every day</x:String>
+                                <x:String>Weekdays</x:String>
+                                <x:String>Weekends</x:String>
+                                <x:String>Monday</x:String>
+                                <x:String>Tuesday</x:String>
+                                <x:String>Wednesday</x:String>
+                                <x:String>Thursday</x:String>
+                                <x:String>Friday</x:String>
+                                <x:String>Saturday</x:String>
+                                <x:String>Sunday</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="10">
+
+                        <VerticalStackLayout Spacing="7">
+                            <Label Text="From *"
+                                   TextColor="#102C57"
+                                   FontAttributes="Bold"/>
+
+                            <Border BackgroundColor="#F8FAFE"
+                                    Stroke="#E2EAF5"
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="8,2">
+
+                                <TimePicker
+                                    x:Name="StartTimePicker"
+                                    Format="HH:mm"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="7">
+
+                            <Label Text="To *"
+                                   TextColor="#102C57"
+                                   FontAttributes="Bold"/>
+
+                            <Border BackgroundColor="#F8FAFE"
+                                    Stroke="#E2EAF5"
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="8,2">
+
+                                <TimePicker
+                                    x:Name="EndTimePicker"
+                                    Format="HH:mm"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label
+                        Text="Times are based on campus local time."
+                        TextColor="#74849B"
+                        FontSize="11"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ACTIONS -->
+            <Border BackgroundColor="White"
+                    Stroke="#DFE8F4"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="14">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Button x:Name="SaveButton"
+                            Text="Publish Service"
+                            BackgroundColor="#176BFF"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="13"
+                            HeightRequest="52"
+                            Clicked="OnSaveClicked"/>
+
+                    <Button Text="Back / Cancel"
+                            Style="{StaticResource OutlineButton}"
+                            HeightRequest="46"
+                            Clicked="OnBackClicked"/>
+
+                    <ActivityIndicator
+                        x:Name="BusyIndicator"
+                        IsVisible="False"
+                        IsRunning="False"
+                        Color="#176BFF"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

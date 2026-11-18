@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:CoreSwap.Pages"
+    x:Class="CoreSwap.Pages.HomePage"
+    Title="Home"
+    BackgroundColor="#F6F9FE">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*"
+          Padding="18,14,18,8"
+          RowSpacing="0">
+
+        <!-- HEADER -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="12"
+              Padding="0,0,0,14">
+
+            <HorizontalStackLayout Spacing="10"
+                                   VerticalOptions="Center">
+
+                <Border BackgroundColor="White"
+                        Stroke="#E2EAF5"
+                        StrokeShape="RoundRectangle 13"
+                        Padding="7"
+                        HeightRequest="49"
+                        WidthRequest="49">
+
+                    <Image Source="coreswap_logo.png"
+                           Aspect="AspectFit"/>
+                </Border>
+
+                <VerticalStackLayout Spacing="2"
+                                     VerticalOptions="Center">
+
+                    <Label Text="CoreSwap"
+                           TextColor="#102C57"
+                           FontSize="21"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="Campus Community"
+                           TextColor="#74849B"
+                           FontSize="11"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- NOTIFICATION BELL -->
+            <Border Grid.Column="1"
+                    BackgroundColor="White"
+                    Stroke="#E2EAF5"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 13"
+                    WidthRequest="46"
+                    HeightRequest="46"
+                    Padding="10">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnNotificationsTapped"/>
+                </Border.GestureRecognizers>
+
+                <Grid WidthRequest="24"
+                      HeightRequest="24">
+
+                    <Path
+                        Data="M 18,8 C 18,4.686 15.314,2 12,2 C 8.686,2 6,4.686 6,8 C 6,15 3,17 3,17 L 21,17 C 21,17 18,15 18,8 Z"
+                        Stroke="#176BFF"
+                        StrokeThickness="1.8"
+                        StrokeLineCap="Round"
+                        StrokeLineJoin="Round"
+                        Fill="Transparent"/>
+
+                    <Path
+                        Data="M 10,21 Q 12,23 14,21"
+                        Stroke="#176BFF"
+                        StrokeThickness="1.8"
+                        StrokeLineCap="Round"
+                        Fill="Transparent"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- WELCOME CARD -->
+        <Border Grid.Row="1"
+                BackgroundColor="#102C57"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 20"
+                Padding="19,18"
+                Margin="0,0,0,17">
+
+            <VerticalStackLayout Spacing="7">
+
+                <Label Text="WELCOME BACK"
+                       FontSize="10"
+                       FontAttributes="Bold"
+                       CharacterSpacing="1.5"
+                       TextColor="#B9D4FF"/>
+
+                <Label x:Name="WelcomeNameLabel"
+                       Text="Hello"
+                       FontSize="25"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="1"/>
+
+                <Label Text="What are you looking for today?"
+                       FontSize="12"
+                       TextColor="#E1EAFF"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- MAIN TABS -->
+        <Border Grid.Row="2"
+                BackgroundColor="White"
+                Stroke="#E1EAF4"
+                StrokeShape="RoundRectangle 16"
+                Padding="5"
+                Margin="0,0,0,12">
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="7">
+
+                <Button x:Name="RequestsTabButton"
+                        Grid.Column="0"
+                        Text="Requests"
+                        Style="{StaticResource PrimaryButton}"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="43"
+                        Clicked="OnRequestsTabClicked"/>
+
+                <Button x:Name="ServicesTabButton"
+                        Grid.Column="1"
+                        Text="Services"
+                        Style="{StaticResource OutlineButton}"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="43"
+                        Clicked="OnServicesTabClicked"/>
+            </Grid>
+        </Border>
+
+        <!-- CATEGORY FILTERS -->
+        <ScrollView Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalScrollBarVisibility="Never"
+                    Margin="0,0,0,13">
+
+            <HorizontalStackLayout x:Name="FilterBar"
+                                   Spacing="8">
+
+                <Button Text="All"
+                        Style="{StaticResource OutlineButton}"
+                        FontSize="12"
+                        HeightRequest="39"
+                        Clicked="OnAllFilterClicked"/>
+
+                <Button Text="Hardware Repair"
+                        Style="{StaticResource OutlineButton}"
+                        FontSize="12"
+                        HeightRequest="39"
+                        Clicked="OnHardwareFilterClicked"/>
+
+                <Button Text="Component Swap"
+                        Style="{StaticResource OutlineButton}"
+                        FontSize="12"
+                        HeightRequest="39"
+                        Clicked="OnSwapFilterClicked"/>
+
+                <Button Text="Tool Loan"
+                        Style="{StaticResource OutlineButton}"
+                        FontSize="12"
+                        HeightRequest="39"
+                        Clicked="OnToolFilterClicked"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- CONTENT -->
+        <Grid Grid.Row="4">
+
+            <!-- REQUESTS -->
+            <RefreshView x:Name="RequestsRefreshView"
+                         Refreshing="OnRequestsRefreshing"
+                         Margin="0,0,0,65">
+
+                <CollectionView x:Name="RequestsCollection"
+                                SelectionMode="None">
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout
+                            Padding="15,55,15,20"
+                            Spacing="9">
+
+                            <Label Text="No requests yet"
+                                   FontSize="17"
+                                   FontAttributes="Bold"
+                                   TextColor="#102C57"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <Label Text="Create a request to get started."
+                                   FontSize="12"
+                                   TextColor="#74849B"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="pages:RequestCard">
+
+                            <Border BackgroundColor="White"
+                                    Stroke="#DFE8F4"
+                                    StrokeShape="RoundRectangle 17"
+                                    Padding="12"
+                                    Margin="0,0,0,12">
+
+                                <Grid ColumnDefinitions="84,*"
+                                      ColumnSpacing="12">
+
+                                    <!-- UPLOADED REQUEST PHOTO -->
+                                    <Border BackgroundColor="#EDF4FF"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 12"
+                                            WidthRequest="84"
+                                            HeightRequest="95">
+
+                                        <Image Source="{Binding ImageSource}"
+                                               Aspect="AspectFill"/>
+                                    </Border>
+
+                                    <Grid Grid.Column="1"
+                                          RowDefinitions="Auto,Auto,Auto"
+                                          RowSpacing="6">
+
+                                        <Label Grid.Row="0"
+                                               Text="{Binding Title}"
+                                               FontAttributes="Bold"
+                                               FontSize="15"
+                                               TextColor="#102C57"
+                                               MaxLines="2"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <Label Grid.Row="1"
+                                               Text="{Binding OwnerName}"
+                                               FontSize="12"
+                                               TextColor="#74849B"
+                                               MaxLines="1"/>
+
+                                        <Grid Grid.Row="2"
+                                              ColumnDefinitions="*,Auto"
+                                              ColumnSpacing="6">
+
+                                            <Label Text="{Binding BudgetText}"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#176BFF"
+                                                   VerticalOptions="Center"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <Button Grid.Column="1"
+                                                    Text="View"
+                                                    Style="{StaticResource OutlineButton}"
+                                                    FontSize="12"
+                                                    HeightRequest="35"
+                                                    Padding="12,0"
+                                                    Clicked="OnRequestViewClicked"
+                                                    CommandParameter="{Binding Request}"/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <!-- SERVICES -->
+            <RefreshView x:Name="ServicesRefreshView"
+                         IsVisible="False"
+                         Refreshing="OnServicesRefreshing"
+                         Margin="0,0,0,65">
+
+                <CollectionView x:Name="ServicesCollection"
+                                SelectionMode="None">
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout
+                            Padding="15,55,15,20"
+                            Spacing="9">
+
+                            <Label Text="No services yet"
+                                   FontAttributes="Bold"
+                                   FontSize="17"
+                                   TextColor="#102C57"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <Label Text="Available services will appear here."
+                                   FontSize="12"
+                                   TextColor="#74849B"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="pages:ServiceCard">
+
+                            <Border BackgroundColor="White"
+                                    Stroke="#DFE8F4"
+                                    StrokeShape="RoundRectangle 17"
+                                    Padding="12"
+                                    Margin="0,0,0,12">
+
+                                <Grid ColumnDefinitions="84,*"
+                                      ColumnSpacing="12">
+
+                                    <!-- UPLOADED SERVICE PHOTO -->
+                                    <Border BackgroundColor="#EDF4FF"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 12"
+                                            WidthRequest="84"
+                                            HeightRequest="95">
+
+                                        <Image Source="{Binding ImageSource}"
+                                               Aspect="AspectFill"/>
+                                    </Border>
+
+                                    <Grid Grid.Column="1"
+                                          RowDefinitions="Auto,Auto,Auto"
+                                          RowSpacing="6">
+
+                                        <Label Grid.Row="0"
+                                               Text="{Binding Title}"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="#102C57"
+                                               MaxLines="2"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <Label Grid.Row="1"
+                                               Text="{Binding OwnerName}"
+                                               FontSize="12"
+                                               TextColor="#74849B"
+                                               MaxLines="1"/>
+
+                                        <Grid Grid.Row="2"
+                                              ColumnDefinitions="*,Auto"
+                                              ColumnSpacing="6">
+
+                                            <Label Text="{Binding PriceText}"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#176BFF"
+                                                   VerticalOptions="Center"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <Button Grid.Column="1"
+                                                    Text="View"
+                                                    Style="{StaticResource OutlineButton}"
+                                                    FontSize="12"
+                                                    HeightRequest="35"
+                                                    Padding="12,0"
+                                                    Clicked="OnServiceViewClicked"
+                                                    CommandParameter="{Binding Service}"/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <!-- CREATE BUTTON -->
+            <Button x:Name="CreateButton"
+                    Text="+"
+                    SemanticProperties.Description="Post a new request or service"
+                    FontSize="27"
+                    FontAttributes="Bold"
+                    BackgroundColor="#176BFF"
+                    TextColor="White"
+                    WidthRequest="56"
+                    HeightRequest="56"
+                    CornerRadius="28"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Margin="0,0,4,13"
+                    Clicked="OnCreateClicked"/>
+
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="#176BFF"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+        </Grid>
+    </Grid>
+</ContentPage>

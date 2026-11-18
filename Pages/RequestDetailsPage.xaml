@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:CoreSwap.Models"
+             x:Class="CoreSwap.Pages.RequestDetailsPage"
+             x:Name="RequestDetailsRoot"
+             Title="Request Details"
+             BackgroundColor="#F6F9FE">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Always-visible back button; works even when Shell hides its navigation bar. -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto,*"
+              ColumnSpacing="12"
+              Padding="18,12,18,8"
+              BackgroundColor="White">
+            <Button Text="← Back"
+                    Style="{StaticResource OutlineButton}"
+                    TextColor="#176BFF"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    HeightRequest="40"
+                    CornerRadius="11"
+                    Padding="15,0"
+                    Clicked="OnBackClicked" />
+            <Label Grid.Column="1"
+                   Text="Request Details"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#102C57"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24" Spacing="14">
+                <Image x:Name="RequestImage" HeightRequest="165" Aspect="AspectFill" />
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label x:Name="TitleLabel" FontSize="23" FontAttributes="Bold" />
+                    <Border Grid.Column="1" StrokeThickness="0" Background="#FFF4D7" StrokeShape="RoundRectangle 14" Padding="10,5">
+                        <Label x:Name="StatusLabel" FontSize="11" TextColor="#A66D00" FontAttributes="Bold" />
+                    </Border>
+                </Grid>
+
+                <Label x:Name="OwnerLabel" TextColor="{StaticResource Muted}" />
+                <Label x:Name="CategoryLabel" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+
+                <Label Text="Description" FontAttributes="Bold" />
+                <Label x:Name="DescriptionLabel" TextColor="#536A82" />
+
+                <Border Stroke="#F0DEAE" Background="#FFF8E8" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Budget / Pricing" FontSize="11" TextColor="#7C6640" />
+                        <Label x:Name="BudgetLabel" FontSize="17" FontAttributes="Bold" />
+                        <Label x:Name="PreferredTimeLabel" FontSize="11" TextColor="{StaticResource Muted}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout x:Name="HelperPanel" Spacing="10">
+                    <Button x:Name="MakeOfferButton" Text="Make Offer" Style="{StaticResource PrimaryButton}" Clicked="OnMakeOfferClicked" />
+                    <Border x:Name="MyOfferCard" IsVisible="False" Stroke="#DCE6F2" Background="#F8FBFF" StrokeShape="RoundRectangle 14" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Your Offer" FontAttributes="Bold" />
+                            <Label x:Name="MyOfferSummaryLabel" />
+                            <Label x:Name="MyOfferStatusLabel" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                            <Grid x:Name="CounterResponseButtons" IsVisible="False" ColumnDefinitions="*,*,*" ColumnSpacing="6">
+                                <Button Text="Accept" Style="{StaticResource PrimaryButton}" Clicked="OnAcceptCounterClicked" />
+                                <Button Grid.Column="1" Text="Counter" Style="{StaticResource OutlineButton}" Clicked="OnCounterAgainClicked" />
+                                <Button Grid.Column="2" Text="Withdraw" Style="{StaticResource OutlineButton}" Clicked="OnWithdrawOfferClicked" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout x:Name="OwnerPanel" IsVisible="False" Spacing="10">
+                    <Label Text="Offers" FontSize="18" FontAttributes="Bold" />
+                    <CollectionView x:Name="OffersCollection" SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <Label Text="No offers yet." TextColor="{StaticResource Muted}" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:OfferItem">
+                                <Border Stroke="#DCE6F2" Background="#F8FBFF" StrokeShape="RoundRectangle 14" Padding="12" Margin="0,0,0,10">
+                                    <VerticalStackLayout Spacing="6">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Text="{Binding OfferedByName}" FontAttributes="Bold" />
+                                            <Label Grid.Column="1" Text="{Binding Status}" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="11" />
+                                        </Grid>
+                                        <Label Text="{Binding Summary}" FontSize="11" />
+                                        <Label Text="{Binding Message}" FontSize="11" TextColor="{StaticResource Muted}" />
+                                        <Grid ColumnDefinitions="*,*,*"
+                                              ColumnSpacing="6"
+                                              x:DataType="{x:Null}"
+                                              IsVisible="{Binding Source={x:Reference RequestDetailsRoot}, Path=CanManageOffers}">
+                                            <Button Text="Accept" Style="{StaticResource PrimaryButton}" HeightRequest="38" FontSize="11" Clicked="OnAcceptOfferClicked" CommandParameter="{Binding .}" />
+                                            <Button Grid.Column="1" Text="Counter" Style="{StaticResource OutlineButton}" HeightRequest="38" FontSize="11" Clicked="OnCounterOfferClicked" CommandParameter="{Binding .}" />
+                                            <Button Grid.Column="2" Text="Decline" Style="{StaticResource OutlineButton}" HeightRequest="38" FontSize="11" Clicked="OnDeclineOfferClicked" CommandParameter="{Binding .}" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Grid x:Name="OwnerActionsGrid" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <Button Text="Edit" Style="{StaticResource OutlineButton}" Clicked="OnEditRequestClicked" />
+                        <Button Grid.Column="1" Text="Delete" Style="{StaticResource OutlineButton}" Clicked="OnDeleteRequestClicked" />
+                        <Button Grid.Column="2" Text="Cancel" Style="{StaticResource OutlineButton}" Clicked="OnCancelRequestClicked" />
+                    </Grid>
+                    <Button x:Name="CompleteButton" Text="Mark Completed" IsVisible="False" Style="{StaticResource PrimaryButton}" Clicked="OnCompleteClicked" />
+                </VerticalStackLayout>
+
+                <Border x:Name="MatchCard" IsVisible="False" Stroke="#D5EEE2" Background="#F5FBF8" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Accepted Match" FontSize="18" FontAttributes="Bold" TextColor="#27885B" />
+                        <Label x:Name="MatchedWithLabel" />
+                        <Label x:Name="MatchTermsLabel" TextColor="{StaticResource Muted}" />
+                        <Button Text="Contact Student" Style="{StaticResource PrimaryButton}" Clicked="OnContactStudentClicked" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Make Offer overlay -->
+        <Grid x:Name="OfferOverlay" Grid.RowSpan="2" IsVisible="False" BackgroundColor="#99000000" Padding="28">
+            <ScrollView VerticalOptions="Center" MaximumHeightRequest="640">
+                <Border Background="White" StrokeShape="RoundRectangle 18" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Make Offer" FontSize="22" FontAttributes="Bold" />
+                        <Entry x:Name="OfferPriceEntry" Keyboard="Numeric" Placeholder="Proposed price (RM)" />
+                        <Label Text="Proposed Date" />
+                        <DatePicker x:Name="OfferDatePicker" Format="ddd, dd MMM yyyy" />
+                        <Label Text="Proposed Time" />
+                        <TimePicker x:Name="OfferTimePicker" Format="HH:mm" />
+                        <Entry x:Name="OfferLocationEntry" Placeholder="Meeting location" />
+                        <Editor x:Name="OfferMessageEditor" Placeholder="Short message" HeightRequest="90" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Button Text="Cancel" Style="{StaticResource OutlineButton}" Clicked="OnOfferOverlayCancelClicked" />
+                            <Button Grid.Column="1" x:Name="SubmitOfferButton" Text="Submit Offer" Style="{StaticResource PrimaryButton}" Clicked="OnSubmitOfferClicked" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </ScrollView>
+        </Grid>
+
+        <!-- Counter overlay -->
+        <Grid x:Name="CounterOverlay" Grid.RowSpan="2" IsVisible="False" BackgroundColor="#99000000" Padding="28">
+            <ScrollView VerticalOptions="Center" MaximumHeightRequest="640">
+                <Border Background="White" StrokeShape="RoundRectangle 18" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Counter Offer" FontSize="22" FontAttributes="Bold" />
+                        <Entry x:Name="CounterPriceEntry" Keyboard="Numeric" Placeholder="New price (RM)" />
+                        <Label Text="New Date" />
+                        <DatePicker x:Name="CounterDatePicker" Format="ddd, dd MMM yyyy" />
+                        <Label Text="New Time" />
+                        <TimePicker x:Name="CounterTimePicker" Format="HH:mm" />
+                        <Entry x:Name="CounterLocationEntry" Placeholder="New location" />
+                        <Editor x:Name="CounterMessageEditor" Placeholder="Short note" HeightRequest="80" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Button Text="Cancel" Style="{StaticResource OutlineButton}" Clicked="OnCounterOverlayCancelClicked" />
+                            <Button Grid.Column="1" Text="Send Counter" Style="{StaticResource PrimaryButton}" Clicked="OnSendCounterClicked" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

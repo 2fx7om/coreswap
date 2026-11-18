@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreSwap.Pages.CreateRequestPage"
+             Title="Create Request"
+             BackgroundColor="#F6F9FE">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="18,18,18,22" Spacing="16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Button Text="←" Grid.Column="0" Clicked="OnBackClicked"
+                            BackgroundColor="White" TextColor="#102C57" FontSize="21"
+                            WidthRequest="46" HeightRequest="46" CornerRadius="13" Padding="0"
+                            SemanticProperties.Description="Go back" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label x:Name="PageHeading" Text="Create Request" FontSize="24"
+                               FontAttributes="Bold" TextColor="#102C57" />
+                        <Label Text="Tell the campus community what you need" FontSize="12"
+                               TextColor="#74849B" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="#102C57" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="POST A REQUEST" FontSize="10" FontAttributes="Bold"
+                               CharacterSpacing="1.5" TextColor="#B9D4FF" />
+                        <Label Text="Find help for your next tech task"
+                               FontSize="17" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="Add the details below so other students can help."
+                               FontSize="12" TextColor="#E1EAFF" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="11">
+                        <Label Text="Photo (optional)" FontSize="15" FontAttributes="Bold" TextColor="#102C57" />
+                        <Border BackgroundColor="#F0F5FC" Stroke="#C9D9EF"
+                                StrokeDashArray="5,4" StrokeShape="RoundRectangle 14"
+                                HeightRequest="150" Padding="6">
+                            <Grid>
+                                <VerticalStackLayout x:Name="PhotoPlaceholder" Spacing="7"
+                                                     VerticalOptions="Center" HorizontalOptions="Center">
+                                    <Label Text="+" FontSize="32" TextColor="#176BFF" HorizontalTextAlignment="Center" />
+                                    <Label Text="Add a photo of your request" FontSize="12"
+                                           TextColor="#74849B" HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                                <Image x:Name="PhotoPreview" IsVisible="False" Aspect="AspectFit" />
+                            </Grid>
+                        </Border>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Button Text="Choose Photo" Clicked="OnChoosePhotoClicked" Grid.Column="0"
+                                    BackgroundColor="#EAF2FF" TextColor="#176BFF" CornerRadius="11"
+                                    HeightRequest="43" FontSize="13" FontAttributes="Bold" />
+                            <Button x:Name="RemovePhotoButton" Text="Remove" Grid.Column="1"
+                                    IsEnabled="False" Clicked="OnRemovePhotoClicked"
+                                    BackgroundColor="#F4F6FA" TextColor="#536A82" CornerRadius="11"
+                                    HeightRequest="43" FontSize="13" />
+                        </Grid>
+                        <Label Text="The photo is optional. Choose an image from your phone."
+                               FontSize="11" TextColor="#74849B" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Request details" FontSize="17" FontAttributes="Bold" TextColor="#102C57" />
+                        <Label Text="Title *" TextColor="#102C57" FontAttributes="Bold" FontSize="13" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10,0">
+                            <Entry x:Name="TitleEntry" Placeholder="e.g. Laptop not turning on"
+                                   MaxLength="100" BackgroundColor="Transparent" TextColor="#102C57" />
+                        </Border>
+                        <Label Text="Category *" TextColor="#102C57" FontAttributes="Bold" FontSize="13" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10,0">
+                            <Picker x:Name="CategoryPicker" Title="Select a category"
+                                    SelectedIndexChanged="OnCategoryChanged" TextColor="#102C57">
+                                <Picker.Items>
+                                    <x:String>Hardware Repair</x:String>
+                                    <x:String>Component Swap</x:String>
+                                    <x:String>Tool Loan</x:String>
+                                    <x:String>Other</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+                        <VerticalStackLayout x:Name="OtherCategoryPanel" IsVisible="False" Spacing="6">
+                            <Label Text="Your category *" FontAttributes="Bold" FontSize="13" TextColor="#102C57" />
+                            <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                    StrokeShape="RoundRectangle 11" Padding="10,0">
+                                <Entry x:Name="OtherCategoryEntry" Placeholder="Write your category"
+                                       MaxLength="50" BackgroundColor="Transparent" TextColor="#102C57" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label Text="Description *" TextColor="#102C57" FontAttributes="Bold" FontSize="13" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10">
+                            <Editor x:Name="DescriptionEditor" Placeholder="Describe what you need..."
+                                    AutoSize="TextChanges" HeightRequest="100"
+                                    BackgroundColor="Transparent" TextColor="#102C57" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Budget &amp; schedule" FontSize="17" FontAttributes="Bold" TextColor="#102C57" />
+                        <Label Text="Pricing type" FontAttributes="Bold" FontSize="13" TextColor="#102C57" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10,0">
+                            <Picker x:Name="PricingPicker" SelectedIndex="2"
+                                    SelectedIndexChanged="OnPricingChanged" TextColor="#102C57">
+                                <Picker.Items>
+                                    <x:String>Free</x:String>
+                                    <x:String>Fixed Budget</x:String>
+                                    <x:String>Negotiable</x:String>
+                                    <x:String>Swap / Exchange</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+                        <VerticalStackLayout x:Name="BudgetPanel" Spacing="6">
+                            <Label Text="Budget (RM)" FontAttributes="Bold" FontSize="13" TextColor="#102C57" />
+                            <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                    StrokeShape="RoundRectangle 11" Padding="10,0">
+                                <Entry x:Name="BudgetEntry" Keyboard="Numeric" Placeholder="e.g. 20"
+                                       BackgroundColor="Transparent" TextColor="#102C57" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label Text="Preferred date *" FontAttributes="Bold" FontSize="13" TextColor="#102C57" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10,0">
+                            <DatePicker x:Name="PreferredDatePicker" Format="ddd, dd MMM yyyy" TextColor="#102C57" />
+                        </Border>
+                        <Label Text="Preferred time (campus local time) *"
+                               FontAttributes="Bold" FontSize="13" TextColor="#102C57" />
+                        <Border BackgroundColor="#F8FAFE" Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 11" Padding="10,0">
+                            <TimePicker x:Name="PreferredTimePicker" Format="HH:mm" TextColor="#102C57" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#DFE8F4"
+                StrokeShape="RoundRectangle 16" Padding="18,12" Margin="12,0,12,10">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Button x:Name="SubmitButton" Text="Submit Request" Grid.Column="0"
+                        BackgroundColor="#176BFF" TextColor="White" CornerRadius="12"
+                        FontAttributes="Bold" HeightRequest="48" Clicked="OnSubmitClicked" />
+                <ActivityIndicator x:Name="BusyIndicator" Grid.Column="1" IsVisible="False"
+                                   IsRunning="False" Color="#176BFF" VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

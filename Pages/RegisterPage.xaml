@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreSwap.Pages.RegisterPage"
+             Title="Create Account">
+    <ScrollView>
+        <VerticalStackLayout Padding="30,40" Spacing="14">
+            <Image Source="coreswap_logo.png" WidthRequest="72" HeightRequest="72" HorizontalOptions="Center" />
+            <Label Text="Create Account" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+            <Label Text="Join the CoreSwap campus community."
+                   TextColor="{StaticResource Muted}"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Text="Full Name" FontAttributes="Bold" Margin="0,16,0,0" />
+            <Entry x:Name="NameEntry" Placeholder="Enter your full name" />
+
+            <Label Text="Student Email" FontAttributes="Bold" />
+            <Entry x:Name="EmailEntry" Keyboard="Email" Placeholder="student@university.edu" />
+
+            <Label Text="Password" FontAttributes="Bold" />
+            <Entry x:Name="PasswordEntry" Placeholder="At least 6 characters" IsPassword="True" />
+
+            <Label Text="Confirm Password" FontAttributes="Bold" />
+            <Entry x:Name="ConfirmEntry" Placeholder="Re-enter password" IsPassword="True" />
+
+            <Button x:Name="RegisterButton" Text="Register" Style="{StaticResource PrimaryButton}" Clicked="OnRegisterClicked" />
+            <ActivityIndicator x:Name="BusyIndicator" IsVisible="False" Color="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

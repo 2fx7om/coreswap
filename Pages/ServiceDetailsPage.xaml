@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:CoreSwap.Models"
+    x:Class="CoreSwap.Pages.ServiceDetailsPage"
+    Title="Service Details"
+    BackgroundColor="#F6F9FE">
+
+    <Grid>
+
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="18,16,18,35"
+                Spacing="15">
+
+                <!-- BACK -->
+                <!-- BACK BUTTON + PAGE TITLE -->
+                <Grid ColumnDefinitions="Auto,*"
+      ColumnSpacing="14"
+      Margin="0,0,0,12">
+
+                    <Border Grid.Column="0"
+            BackgroundColor="White"
+            Stroke="#DFE8F4"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 13"
+            Padding="0"
+            HeightRequest="48">
+
+                        <Button Text="← Back"
+                BackgroundColor="Transparent"
+                TextColor="#176BFF"
+                FontSize="15"
+                FontAttributes="Bold"
+                Padding="16,0"
+                Clicked="OnBackClicked"/>
+                    </Border>
+
+                    <Label Grid.Column="1"
+           Text="Service Details"
+           FontSize="21"
+           FontAttributes="Bold"
+           TextColor="#102C57"
+           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- IMAGE -->
+                <Border BackgroundColor="#EDF4FF"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 18"
+                        HeightRequest="190">
+
+                    <Image x:Name="ServiceImage"
+                           Aspect="AspectFill"/>
+                </Border>
+
+                <!-- SERVICE DETAILS -->
+                <Border BackgroundColor="White"
+                        Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="16">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label x:Name="CategoryLabel"
+                               TextColor="#176BFF"
+                               FontAttributes="Bold"
+                               FontSize="12"/>
+
+                        <Label x:Name="TitleLabel"
+                               FontSize="23"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <Label x:Name="ProviderLabel"
+                               TextColor="#74849B"
+                               FontSize="12"/>
+
+                        <Border BackgroundColor="#F1F6FF"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 12"
+                                Padding="13">
+
+                            <VerticalStackLayout Spacing="7">
+
+                                <Label Text="Pricing"
+                                       FontSize="11"
+                                       TextColor="#74849B"/>
+
+                                <Label x:Name="PriceLabel"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#102C57"/>
+
+                                <Label x:Name="AvailabilityLabel"
+                                       FontSize="12"
+                                       TextColor="#536A82"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Label Text="What I can help with"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"
+                               Margin="0,5,0,0"/>
+
+                        <Label x:Name="DescriptionLabel"
+                               TextColor="#536A82"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- CUSTOMER -->
+                <VerticalStackLayout
+                    x:Name="ViewerPanel"
+                    Spacing="8">
+
+                    <Button Text="Request This Service"
+                            BackgroundColor="#176BFF"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            HeightRequest="51"
+                            CornerRadius="13"
+                            Clicked="OnRequestServiceClicked"/>
+
+                    <Label Text="Send your price and preferred appointment directly to the provider."
+                           TextColor="#74849B"
+                           FontSize="11"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+
+                <!-- SERVICE OWNER -->
+                <Grid x:Name="OwnerPanel"
+                      IsVisible="False"
+                      ColumnDefinitions="*,*,*"
+                      ColumnSpacing="8">
+
+                    <Button Text="Edit"
+                            Style="{StaticResource OutlineButton}"
+                            Clicked="OnEditClicked"/>
+
+                    <Button Grid.Column="1"
+                            Text="Disable"
+                            Style="{StaticResource OutlineButton}"
+                            Clicked="OnDisableClicked"/>
+
+                    <Button Grid.Column="2"
+                            Text="Delete"
+                            Style="{StaticResource OutlineButton}"
+                            Clicked="OnDeleteClicked"/>
+                </Grid>
+
+                <!-- NEGOTIATION OFFERS -->
+                <Border BackgroundColor="White"
+                        Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="15">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label x:Name="OffersHeading"
+                               Text="Service Offers"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <Label x:Name="NoOffersLabel"
+                               Text="No offers yet."
+                               TextColor="#74849B"
+                               FontSize="12"
+                               IsVisible="True"/>
+
+                        <VerticalStackLayout
+                            x:Name="OffersList"
+                            Spacing="10"
+                            BindableLayout.ItemsSource="{Binding ServiceOffers}">
+
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:ServiceOfferItem">
+
+                                    <Border BackgroundColor="#F8FAFE"
+                                            Stroke="#DFE8F4"
+                                            StrokeShape="RoundRectangle 13"
+                                            Padding="12">
+
+                                        <VerticalStackLayout Spacing="8">
+
+                                            <Grid ColumnDefinitions="*,Auto">
+
+                                                <Label Text="{Binding OfferedByName}"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#102C57"
+                                                       FontSize="14"/>
+
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Status}"
+                                                       TextColor="#176BFF"
+                                                       FontAttributes="Bold"
+                                                       FontSize="11"/>
+                                            </Grid>
+
+                                            <Label Text="{Binding Summary}"
+                                                   TextColor="#102C57"
+                                                   FontAttributes="Bold"
+                                                   FontSize="12"/>
+
+                                            <Label Text="{Binding Message}"
+                                                   TextColor="#74849B"
+                                                   FontSize="12"/>
+
+                                            <!-- PROVIDER ACTIONS -->
+                                            <Grid ColumnDefinitions="*,*,*"
+                                                  ColumnSpacing="6"
+                                                  IsVisible="{Binding CanOwnerRespond}">
+
+                                                <Button Text="Accept"
+                                                        FontSize="11"
+                                                        HeightRequest="39"
+                                                        BackgroundColor="#176BFF"
+                                                        TextColor="White"
+                                                        CornerRadius="10"
+                                                        CommandParameter="{Binding .}"
+                                                        Clicked="OnAcceptServiceOfferClicked"/>
+
+                                                <Button Grid.Column="1"
+                                                        Text="Counter"
+                                                        FontSize="11"
+                                                        HeightRequest="39"
+                                                        Style="{StaticResource OutlineButton}"
+                                                        CommandParameter="{Binding .}"
+                                                        Clicked="OnCounterServiceOfferClicked"/>
+
+                                                <Button Grid.Column="2"
+                                                        Text="Decline"
+                                                        FontSize="11"
+                                                        HeightRequest="39"
+                                                        Style="{StaticResource OutlineButton}"
+                                                        CommandParameter="{Binding .}"
+                                                        Clicked="OnDeclineServiceOfferClicked"/>
+                                            </Grid>
+
+                                            <!-- CUSTOMER RESPONSE -->
+                                            <Button Text="Accept Counter Price"
+                                                    IsVisible="{Binding CanCustomerAcceptCounter}"
+                                                    BackgroundColor="#176BFF"
+                                                    TextColor="White"
+                                                    HeightRequest="43"
+                                                    CornerRadius="11"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnAcceptCounterClicked"/>
+
+                                            <Button Text="Withdraw Offer"
+                                                    IsVisible="{Binding CanCustomerWithdraw}"
+                                                    Style="{StaticResource OutlineButton}"
+                                                    HeightRequest="40"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnWithdrawServiceOfferClicked"/>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <ActivityIndicator
+                    x:Name="BusyIndicator"
+                    IsVisible="False"
+                    IsRunning="False"
+                    Color="#176BFF"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- NEGOTIATION OVERLAY -->
+        <Grid x:Name="OfferOverlay"
+              IsVisible="False"
+              BackgroundColor="#99000000"
+              Padding="20">
+
+            <ScrollView VerticalOptions="Center"
+                        MaximumHeightRequest="630">
+
+                <Border BackgroundColor="White"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="19">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label Text="Request This Service"
+                               FontSize="21"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <Label Text="Propose a price and appointment for this service."
+                               TextColor="#74849B"
+                               FontSize="12"/>
+
+                        <Label Text="Your Offer Price (RM)"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <Entry x:Name="OfferPriceEntry"
+                               Keyboard="Numeric"
+                               Placeholder="e.g. 25"/>
+
+                        <Label Text="Preferred Date"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <DatePicker x:Name="OfferDatePicker"
+                                    Format="ddd, dd MMM yyyy"/>
+
+                        <Label Text="Preferred Time"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <TimePicker x:Name="OfferTimePicker"
+                                    Format="HH:mm"/>
+
+                        <Label Text="Message"
+                               FontAttributes="Bold"
+                               TextColor="#102C57"/>
+
+                        <Editor x:Name="OfferMessageEditor"
+                                Placeholder="Describe what you need..."
+                                HeightRequest="85"
+                                MaxLength="500"/>
+
+                        <Grid ColumnDefinitions="*,*"
+                              ColumnSpacing="10"
+                              Margin="0,8,0,0">
+
+                            <Button Text="Cancel"
+                                    Style="{StaticResource OutlineButton}"
+                                    Clicked="OnOfferCancelClicked"/>
+
+                            <Button x:Name="SubmitOfferButton"
+                                    Grid.Column="1"
+                                    Text="Send Offer"
+                                    BackgroundColor="#176BFF"
+                                    TextColor="White"
+                                    CornerRadius="12"
+                                    Clicked="OnSubmitServiceOfferClicked"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

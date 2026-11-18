@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CoreSwap.Pages.ChatPage"
+    BackgroundColor="#F6F9FE"
+    Title="Chat">
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          RowSpacing="0">
+
+        <!-- CHAT HEADER -->
+        <Border Grid.Row="0"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                Padding="16,13">
+
+            <Grid ColumnDefinitions="Auto,*"
+                  ColumnSpacing="12">
+
+                <Button Text="Back"
+                        Clicked="OnBackClicked"
+                        BackgroundColor="#EDF4FF"
+                        TextColor="#176BFF"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="45"
+                        Padding="14,0"/>
+
+                <VerticalStackLayout Grid.Column="1"
+                                     VerticalOptions="Center"
+                                     Spacing="4">
+
+                    <Label x:Name="ChatTitle"
+                           Text="Conversation"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#102C57"
+                           MaxLines="1"/>
+
+                    <Label x:Name="ChatSubtitle"
+                           Text="Accepted service"
+                           FontSize="11"
+                           TextColor="#74849B"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- MESSAGES -->
+        <Grid Grid.Row="1"
+              RowDefinitions="*">
+
+            <CollectionView
+                x:Name="MessagesCollection"
+                Grid.Row="0"
+                Margin="12,10"
+                SelectionMode="None"
+                VerticalOptions="Fill"
+                ItemsUpdatingScrollMode="KeepLastItemInView">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout
+                        Padding="20,70"
+                        Spacing="9">
+
+                        <Label Text="No messages yet"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="#102C57"
+                               HorizontalTextAlignment="Center"/>
+
+                        <Label
+                            Text="Send your first message to start the conversation."
+                            FontSize="12"
+                            TextColor="#74849B"
+                            HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,*"
+                              ColumnSpacing="8"
+                              Margin="0,3,0,6">
+
+                            <!-- OTHER USER -->
+                            <Border
+                                Grid.Column="0"
+                                IsVisible="{Binding IsOther}"
+                                BackgroundColor="White"
+                                Stroke="#DFE8F4"
+                                StrokeShape="RoundRectangle 15"
+                                Padding="12,10">
+
+                                <VerticalStackLayout Spacing="5">
+
+                                    <Label
+                                        Text="{Binding Text}"
+                                        TextColor="#102C57"
+                                        FontSize="14"
+                                        LineBreakMode="WordWrap"/>
+
+                                    <Label
+                                        Text="{Binding TimeText}"
+                                        FontSize="10"
+                                        TextColor="#8293AA"
+                                        HorizontalTextAlignment="End"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- MY MESSAGE -->
+                            <Border
+                                Grid.Column="1"
+                                IsVisible="{Binding IsMine}"
+                                BackgroundColor="#176BFF"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                Padding="12,10">
+
+                                <VerticalStackLayout Spacing="5">
+
+                                    <Label
+                                        Text="{Binding Text}"
+                                        FontSize="14"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap"/>
+
+                                    <Label
+                                        Text="{Binding TimeText}"
+                                        FontSize="10"
+                                        TextColor="#DCE9FF"
+                                        HorizontalTextAlignment="End"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator
+                x:Name="LoadingIndicator"
+                IsVisible="False"
+                IsRunning="False"
+                Color="#176BFF"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+        </Grid>
+
+        <!-- MESSAGE COMPOSER -->
+        <Border Grid.Row="2"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                Padding="12,10">
+
+            <VerticalStackLayout Spacing="6">
+
+                <Label x:Name="ErrorLabel"
+                       IsVisible="False"
+                       TextColor="#BF3B47"
+                       FontSize="11"
+                       LineBreakMode="WordWrap"/>
+
+                <Grid x:Name="Composer"
+                      IsEnabled="False"
+                      ColumnDefinitions="*,Auto"
+                      ColumnSpacing="9">
+
+                    <Border
+                        BackgroundColor="#F6F9FE"
+                        Stroke="#DFE8F4"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="10,0"
+                        VerticalOptions="Center">
+
+                        <Entry
+                            x:Name="MessageEntry"
+                            Placeholder="Type a message..."
+                            MaxLength="1000"
+                            TextColor="#102C57"
+                            PlaceholderColor="#74849B"
+                            FontSize="14"
+                            HeightRequest="48"
+                            ReturnType="Send"
+                            Focused="OnMessageFocused"
+                            Completed="OnMessageCompleted"/>
+                    </Border>
+
+                    <Button
+                        x:Name="SendButton"
+                        Grid.Column="1"
+                        Text="Send"
+                        BackgroundColor="#176BFF"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="48"
+                        Padding="17,0"
+                        Clicked="OnSendClicked"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

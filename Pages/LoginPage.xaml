@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreSwap.Pages.LoginPage"
+             Title="Login">
+    <ScrollView>
+        <VerticalStackLayout Padding="30,50" Spacing="16">
+            <Image Source="coreswap_logo.png"
+                   WidthRequest="78"
+                   HeightRequest="78"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Welcome back"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center" />
+            <Label Text="Sign in to continue to CoreSwap."
+                   TextColor="{StaticResource Muted}"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Text="Student Email" FontAttributes="Bold" Margin="0,18,0,0" />
+            <Entry x:Name="EmailEntry"
+                   Keyboard="Email"
+                   Placeholder="student@university.edu" />
+
+            <Label Text="Password" FontAttributes="Bold" />
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Password"
+                   IsPassword="True" />
+
+            <Button x:Name="LoginButton" Text="Login"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnLoginClicked" />
+
+            <Button Text="Forgot Password?"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    Clicked="OnForgotPasswordClicked" />
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                <Label Text="Don't have an account?" TextColor="{StaticResource Muted}" />
+                <Label Text="Register" TextColor="{StaticResource Primary}" FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
